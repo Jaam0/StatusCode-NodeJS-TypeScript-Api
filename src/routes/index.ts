@@ -12,7 +12,7 @@ readdirSync(PATH_ROUTER).filter((fileName) => {
 
   if (cleanName !== "index") {
     import(`./${cleanName}`).then((moduleRouter) => {
-      console.log(`The routes are loading... /${cleanName}`);
+      console.log(`-- The routes are loading... /${cleanName} --`);
       router.use(`/${TAG_SERVER}/${cleanName}`, moduleRouter.router);
     });
   }

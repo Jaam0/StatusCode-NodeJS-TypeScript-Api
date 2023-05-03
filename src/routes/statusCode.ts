@@ -13,10 +13,9 @@ import {
 
 const router = Router();
 
-router.get("/",showRows);
-// router.get("/", getAll);
-// router.get("/:id", getOne);
-// router.post("/", postOne);
+router.get("/", showRows);
+router.get("/:id", showOne);
+router.post("/", insert);
 // router.put("/:id", putOne);
 // router.delete("/:id", deleteOne);
 

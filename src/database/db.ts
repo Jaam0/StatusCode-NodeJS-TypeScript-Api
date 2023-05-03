@@ -1,51 +1,26 @@
-import sqlite3 from "sqlite3";
-import fs from "fs";
+import { Collection, Db, MongoClient } from "mongodb";
+import { config } from "../helpers/config.helper";
 
-export function createDbConnection() {
-  const filepath = "./statusCode.db";
+export class Database {
+  private readonly database?: string = config.DB.database;
+  private readonly host?: string = config.DB.host;
+  private readonly port?: string = config.DB.port;
+  private readonly user?: string = config.DB.user;
+  private readonly password?: string = config.DB.password;
+  private db: Db;
+  public statusCodeCollection: Collection;
 
-  if (fs.existsSync(filepath)) {
-    return new sqlite3.Database(filepath);
-  } else {
-    const db = new sqlite3.Database(filepath, (error) => {
-      if (error) {
-        return console.error(error.message);
-      }
-      createTable(db);
-    });
-    console.log("Connection with SQLite has been established");
-    return db;
+  constructor() {
+    this.connectToMongoDB();
+  }
+
+  async connectToMongoDB() {
+    const url = `mongodb://${this.user}:${this.password}@${this.host}:${this.port}/`;
+    // const url = `mongodb+srv://${this.user}:${this.password}@${clusterUrl}/?authMechanism=${authMechanism}`;
+    const client = new MongoClient(url);
+    await client.connect();
+    console.log("-- Connected to MongoDB --");
+    this.db = client.db(this.database);
+    this.statusCodeCollection = this.db.collection("StatusCode");
   }
 }
-
-function createTable(db) {
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS statusCode
-    (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      code INTERGER NOT NULL,
-      name   VARCHAR(60) NOT NULL,
-      codeStatus VARCHAR(50) NOT NULL,
-      note   VARCHAR(200) NOT NULL,
-      status VARCHAR(20) NOT NULL
-    );
-  `);
-}
-
-// const db = new sqlite3.Database(':memory:');
-
-// db.serialize(() => {
-//     db.run("CREATE TABLE lorem (info TEXT)");
-
-//     // const stmt = db.prepare("INSERT INTO lorem VALUES (?)");
-//     // for (let i = 0; i < 10; i++) {
-//     //     stmt.run("Ipsum " + i);
-//     // }
-//     // stmt.finalize();
-
-//     db.each("SELECT rowid AS id, info FROM lorem", (err, row:any) => {
-//         console.log(row.id + ": " + row.info);
-//     });
-// });
-
-// db.close();

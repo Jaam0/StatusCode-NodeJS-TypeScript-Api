@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 const success = (req: Request, res: Response, message: any, status: number) => {
+  console.log(status);
   res.status(status).send({
     error: false,
     status: status,
