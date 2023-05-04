@@ -16,7 +16,7 @@ const router = Router();
 router.get("/", showRows);
 router.get("/:id", showOne);
 router.post("/", insert);
-// router.put("/:id", putOne);
-// router.delete("/:id", deleteOne);
+router.put("/:id", update);
+router.delete("/:id", dropOne);
 
 export { router };

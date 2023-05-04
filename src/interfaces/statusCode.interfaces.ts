@@ -5,6 +5,6 @@ export interface statusCodeInterface {
   code: number;
   name: string;
   codeStatus: codeStatusEnum;
-  note: string;
+  note?: string;
   status: statusEnum;
 }

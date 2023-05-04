@@ -20,8 +20,7 @@ const showRows = async (req: Request, res: Response) => {
 const showOne = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const data = await showById(Number(id));
-    // const status: number = Object.keys(data).length !== 0 ? 200 : 204;
+    const data = await showById(id);
     success(req, res, data, 200);
   } catch (err: any) {
     error(req, res, err.message, 500);
@@ -29,15 +28,31 @@ const showOne = async (req: Request, res: Response) => {
 };
 const insert = async (req: Request, res: Response) => {
   try {
-    const payload:statusCodeInterface = req.body;
+    const payload: statusCodeInterface = req.body;
     const data = await add(payload);
-    // const status: number = Object.keys(data).length !== 0 ? 200 : 204;
     success(req, res, data, 200);
   } catch (err: any) {
     error(req, res, err.message, 500);
   }
 };
-const update = async () => {};
-const dropOne = async () => {};
+const update = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const payload: statusCodeInterface = req.body;
+    const data = await edit(id, payload);
+    success(req, res, data, 200);
+  } catch (err: any) {
+    error(req, res, err.message, 500);
+  }
+};
+const dropOne = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const data = await drop(id);
+    success(req, res, data, 200);
+  } catch (err: any) {
+    error(req, res, err.message, 500);
+  }
+};
 
 export { showRows, showOne, insert, update, dropOne };

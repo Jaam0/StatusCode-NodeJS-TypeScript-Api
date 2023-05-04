@@ -6,12 +6,11 @@ import cors from "cors";
  * Ruta para acceder a las imagenes: http://localhost:3005/data/401f5ad2e91.png
  */
 import { router } from "./routes/index";
-import { Database } from "./database/db";
+import { connectToMongoDB } from "./database/db";
 
 const app = express();
 const PORT = process.env.PORT || 3006;
 const TAG_SERVER = process.env.TAG_SERVER;
-const database = new Database();
 
 app.use(morgan("dev"));
 app.use(cors());
@@ -22,5 +21,5 @@ app.use(router);
 
 app.listen(PORT, async () => {
   console.log(`-- Server running on port:${PORT} --`);
-  database.connectToMongoDB();
+  connectToMongoDB();
 });

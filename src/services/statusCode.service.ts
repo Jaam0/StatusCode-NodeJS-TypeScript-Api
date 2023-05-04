@@ -1,51 +1,64 @@
-import { codeStatusEnum } from "../enums/statusCode.enum";
-import { statusEnum } from "../enums/status.enum";
 import { statusCodeInterface } from "../interfaces/statusCode.interfaces";
-// import statusCodeModel from "../models/modelsDB/statusCode";
-import { Database } from "../database/db";
+import { StatusCodeModel } from "../models/modelsDB/statusCode";
 
-const database = new Database();
-const statusCodeCollection = database.statusCodeCollection;
 const show = async (): Promise<statusCodeInterface[] | any> => {
-  const data = statusCodeCollection.find();
-  console.log(data);
-  // const data = await statusCodeModel.find({});
-  return data;
+  const statusCodeData = await StatusCodeModel.find({});
+
+  if (statusCodeData.length === 0) {
+    return "There is not data";
+  }
+  return statusCodeData;
 };
 
-const showById = async (id: number) => {
-  const query = `SELECT A.* FROM STATUSCODE A WHERE A.ID = ?`;
-  // const data = await db().each(query, [id], (err: any, res: any) => {
-  //   if (err) {
-  //     console.log(`Error trying to consult by ID: ${err}`);
-  //   }
-  // if (res !== undefined) {
-  //   statusCodeData.id = res.id;
-  //   statusCodeData.code = res.code;
-  //   statusCodeData.name = res.name;
-  //   statusCodeData.codeStatus = res.codeStatus;
-  //   statusCodeData.note = res.note;
-  //   statusCodeData.status = res.status;
-  //   return statusCodeData;
-  // } else {
-  //   return "Data not found";
-  // }
-  // });
-  // return data;
+const showById = async (id: string) => {
+  const validObjectId = id.match(/^[0-9a-fA-F]{24}$/);
+
+  const existStatusCode = validObjectId
+    ? await StatusCodeModel.findById(id)
+    : "Invalid ObjectID";
+
+  if (!existStatusCode) {
+    return "Status code not found";
+  }
+
+  return existStatusCode;
 };
 
 const add = async (payload: statusCodeInterface) => {
   const code = payload.code;
-  const findOnDB = await statusCodeCollection.findOne({ code });
-  if (findOnDB) {
-    return "The row already exist";
+
+  const existStatusCode = await StatusCodeModel.findOne({
+    code: code,
+    name: payload.name,
+  });
+
+  if (existStatusCode) {
+    return "Status code already exist";
   }
-  const statusCode = statusCodeCollection.insertOne(payload);
-  return statusCode;
+
+  const responseInsert = await StatusCodeModel.create(payload);
+  await responseInsert.save();
+
+  return responseInsert;
 };
 
-const edit = async () => {};
+const edit = async (id: string, payload: statusCodeInterface) => {
+  const validObjectId = id.match(/^[0-9a-fA-F]{24}$/);
+  const responseUpdate = validObjectId
+    ? await StatusCodeModel.findByIdAndUpdate(id, payload, { new: true })
+    : "Status code not found";
 
-const drop = async () => {};
+  return responseUpdate;
+};
+
+const drop = async (id: string) => {
+  const validObjectId = id.match(/^[0-9a-fA-F]{24}$/);
+
+  const responseDelete = validObjectId
+    ? await StatusCodeModel.findByIdAndDelete(id)
+    : "Status code not found";
+
+  return responseDelete;
+};
 
 export { show, showById, add, edit, drop };
