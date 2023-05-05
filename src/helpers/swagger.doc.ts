@@ -39,7 +39,7 @@ const swaggerOptions = {
               content: {
                 "application/json": {
                   schema: {
-                    $ref: "#/components/schemas/api/StatusCode",
+                    $ref: "#/components/schemas/StatusCode",
                   },
                 },
               },

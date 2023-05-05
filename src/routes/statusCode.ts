@@ -14,42 +14,45 @@ import {
   StatusCodeDto,
   StatusCodeObjectIdDto,
 } from "../models/dto/statusCode.dto";
-// import { payloadCategory } from "../middlewares/payload-validate.middleware";
-// import { checkJwt } from "../middlewares/session.middleware";
-// import { checkRol } from "../middlewares/rol.middleware";
-// import { Rol } from "../enums/rol.enum";
+import { checkJwt } from "../middlewares/session.middleware";
+import { checkRol } from "../middlewares/rol.middleware";
+import { rolEnum } from "../enums/rol.enum";
 
 const router = Router();
 
-// routes/users.ts
-
-/**
- * @swagger
- * tags:
- *   name: Users
- *   description: User management and retrieval
- */
-
-/**
- * @swagger
- * /users:
- *   get:
- *     summary: Returns a list of statusCode
- *     tags: [StatusCode]
- *     responses:
- *       200:
- *         description: Successful response
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/StatusCode'
- */
 router.get("/", showRows);
-router.get("/:id", validateParams(StatusCodeObjectIdDto), showOne);
-router.post("/", validateBody(StatusCodeDto), insert);
-router.put("/:id", validateBody(StatusCodeDto), update);
-router.delete("/:id", validateParams(StatusCodeObjectIdDto), dropOne);
+router.get(
+  "/:id",
+  [checkJwt, checkRol(Object.values(rolEnum))],
+  validateParams(StatusCodeObjectIdDto),
+  showOne
+);
+router.post(
+  "/",
+  [
+    checkJwt,
+    checkRol([rolEnum.Admin, rolEnum.Editor]),
+    validateBody(StatusCodeDto),
+  ],
+  insert
+);
+router.put(
+  "/:id",
+  [
+    checkJwt,
+    checkRol([rolEnum.Admin, rolEnum.Editor]),
+    validateBody(StatusCodeDto),
+  ],
+  update
+);
+router.delete(
+  "/:id",
+  [
+    checkJwt,
+    checkRol([rolEnum.Admin, rolEnum.Editor]),
+    validateParams(StatusCodeObjectIdDto),
+  ],
+  dropOne
+);
 
 export { router };

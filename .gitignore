@@ -3,3 +3,4 @@ node_modules/
 build/
 statusCode.db
 .vscode/
+coverage/
