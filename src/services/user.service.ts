@@ -5,6 +5,9 @@ import { rolEnum } from "../enums/rol.enum";
 import { statusEnum } from "../enums/status.enum";
 import { singToken } from "../utils/jwt.util";
 import { isEmail } from "../utils/others.util";
+import { sendEmail } from "../utils/nodemailer.util";
+import { config } from "../helpers/config.helper";
+
 
 const show = async (): Promise<userInterface[] | any> => {
   const userData = await UserModel.find({});
@@ -57,6 +60,13 @@ const add = async (payload: userInterface) => {
   const responseInsert = await UserModel.create(dataInsert);
   await responseInsert.save();
 
+  const bodyHtml = config.template.body.replace('@name',`${responseInsert.fullname}`);
+  await sendEmail(
+    `${responseInsert.email}`,
+    "Welcome to StatusCode",
+    "",
+    `${bodyHtml}`
+  );
   return "Account registered";
 };
 
