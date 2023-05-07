@@ -4,3 +4,4 @@ build/
 statusCode.db
 .vscode/
 coverage/
+src/docs/.*
