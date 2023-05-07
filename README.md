@@ -45,21 +45,21 @@
 - **Create a .env file and fill up all those enviroment variables:**
 
 **SERVER**
-PORT=
-TAG_SERVER=
+PORT=  
+TAG_SERVER=  
 
 **DATABASE**
-MONGODB=mongodb://username:password@host:port/?authMechanism=DEFAULT
+MONGODB=mongodb://username:password@host:port/?authMechanism=DEFAULT  
 
 **JSONWEBTOKEN**
-JWT_SECRET=
-TOKEN_EXPIRE=
+JWT_SECRET=  
+TOKEN_EXPIRE=  
 
 **EMAIL CONFIG**
-EMAIL_SERVER=
-EMAIL_PORT=
-EMAIL_USER=
-EMAIL_PASSWORD=
+EMAIL_SERVER=  
+EMAIL_PORT=  
+EMAIL_USER=  
+EMAIL_PASSWORD=  
 
 - You need to have mongodb installed in your pc or laptop. If you don't have mongodb installed, you can download mongodb from docker, below some example:
 
@@ -81,37 +81,37 @@ EMAIL_PASSWORD=
 
 ## Public link and private
 
-Main link: http://localhost:3333/api/ <!-- Public link -->
-Link entity: http://localhost:3333/api/statuscode <!-- Public link get all statusCode-->
-Link documentation: http://localhost:3333/api/docs <!-- Public link get the api documentation-->
-Link Sign In: http://localhost:3333/api/auth/signin <!-- Public link signin -->
-Link Sign Up: http://localhost:3333/api/auth/signup <!-- Public link signup -->
+- Main link: http://localhost:3333/api/ <!-- Public link -->
+- Link entity: http://localhost:3333/api/statuscode <!-- Public link get all statusCode-->
+- Link documentation: http://localhost:3333/api/docs <!-- Public link get the api documentation-->
+- Link Sign In: http://localhost:3333/api/auth/signin <!-- Public link signin -->
+- Link Sign Up: http://localhost:3333/api/auth/signup <!-- Public link signup -->
 
 
 **CRUD link**
 
 - http://localhost:3333/api/statuscode/  <!-- private link add a new statusCode-->
 
-**Payload:**
-{
-    "code":100,
-    "name":"Continue",
-    "codeStatus":"Successful",
-    "note":"",
-    "status":"Active"
-}
+**Payload:**  
+{  
+    "code":100,  
+    "name":"Continue",  
+    "codeStatus":"Successful",  
+    "note":"",  
+    "status":"Active"  
+}  
 
 - http://localhost:3333/api/statuscode/id  <!-- private link getbyId a statusCode -->
 
 - http://localhost:3333/api/statuscode/id  <!-- private link updatebyId a statusCode-->
-**Payload:**
-{
-    "code":100,
-    "name":"Continue",
-    "codeStatus":"Successful",
-    "note":"",
-    "status":"Active"
-}
+**Payload:**  
+{  
+    "code":100,  
+    "name":"Continue",  
+    "codeStatus":"Successful",  
+    "note":"",  
+    "status":"Active"  
+}  
 
 - http://localhost:3333/api/statuscode/id  <!-- private link deletebyId a statusCode-->
 
